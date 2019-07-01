@@ -1,30 +1,44 @@
 <template>
-  <div id="film">
+  <div id="film" class="wrapper" ref="wrapper">
+    <div class="film-header" :class="{ filmHeader:falgheader }">
+      <div class="goBack">
+        <img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAAAt1BMVEVHcEz///////////////////////////////////////////////////////////////////////////////////97e3saGxyIiYnW1tYdHh9UVVUpKiulpaXLy8s6OzyysrIiIyPx8fEeHyC/v7/5+fklJihCQ0Ntb28bHB1hYWKXl5c0NTZLS0xAQUI4ODk3ODjh4eHr6+s2Nzfq6uptbm5gYGIbHB39/f2VlZdLS0wzNDUZGhs8UYRWAAAAPHRSTlMAGHpLE3cKgEdgVnJfNBZ+cBx9A28js/6sjPvK7p+Q3pn1g/iUgfLYuvzCpeTR2eHiiIXihrvD/YCl0uTUXbEtAAABd0lEQVRIx91W13KDQAw0xnCHARuDe+/dKY7T9f/flTzghCLdMaMXj/eRnZ0T0qqUSveBim96gRWGVuCZfqW4zpCuSMGVRiFhwxEInIY+0qogUFXHHcm6IFGXEa20HaGEY1PKWlNo0KzhylZZaFFuoW8WUP5qkXdtMtrnx4dkzLn/jcgMXY7wlMpVNs+SUs4nMOylvsiME6h6rjawHmfqm/YG6aETzJY5X6V8SykHsJjmvyb9TOVoD/0R5qpElxHKLewOKGHo0tuGThdn/pPsony3A20iHPevMih92MGW9OO1Pj5Gjvqwp63sx1IT4aYLGCi6wIylXp5azuCkaiAvlgY5ZryGzUolDWKplSV6Q5jMlW1rxdIwS7zA8azu+JCWfl+KSRkBM9KEF+fro0BxGJagjPimNyJp/1et/RlNx2l1esC8f2oGDGOscYYpY4RzFgdjXSmW5Fm3JBmrmXMQcM4QzvHDObk4hx7nvGQdtaxTmnXA3zR+AH8JUdNL967cAAAAAElFTkSuQmCC"
+          alt
+        />
+      </div>
+      <div class="title">{{FilmDetails.name}}</div>
+      <!---->
+    </div>
     <div class="topIMg">
-      <img :src="FilmDetails.poster" alt>
+      <img :src="FilmDetails.poster" alt />
     </div>
     <div class="film-details">
       <div class="fiml-name-d">
         <span>{{ FilmDetails.name }}</span>
         <em>{{ FilmDetails.filmType.name }}</em>
-        <i>
+        <i v-if="falgGrade">
           {{ FilmDetails.grade }}
           <s>分</s>
         </i>
       </div>
       <div class="film-category-d grey-text">{{ FilmDetails.category }}</div>
       <div class="film-releaseDate-d grey-text">
-        <span>{{ FilmDetails.premiereAt }}上映</span>
+        <span>{{ premiereAt }}上映</span>
       </div>
       <div class="film-nation-d grey-text">{{ FilmDetails.nation }} | {{ FilmDetails.runtime }}分钟</div>
-      <div class="film-synopsis-d grey-text transi">
-        <p :class="{hidde:flagtitle}">{{ FilmDetails.synopsis }}</p>
+      <div class="film-synopsis-d grey-text">
+        <p
+          :class="{hidde:flagtitle}"
+          class="transi"
+          style="min-height: 10px"
+        >{{ FilmDetails.synopsis }}</p>
         <p class="title-flag" @click="flagtitle = !flagtitle">
           <img
             :class="{upper:!flagtitle}"
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAICAMAAADHqI+lAAAAOVBMVEVHcEy9xcW9wMW9wcW////Bwca9wcW9wMW9wMW+wMW+wcW9wcXMzMy+wMa+wce9wMe9wca9wMW9wMWKU/2FAAAAEnRSTlMAH+jGBDa6/vaatcIPdlNSdckJHB8JAAAASUlEQVQIHQXBhwGDMAADMCVksQr4/2MrObYCQNkOZ2oH6DWna2Q9wG9lXLQ984V3Zm/gntlb2zNvgN/KGFkPAL0mtQNA+b4C/AGl4gJfgEWzrAAAAABJRU5ErkJggg=="
             alt
-          >
+          />
         </p>
       </div>
     </div>
@@ -35,7 +49,9 @@
       <div class="film-actor-tit">
         <ul class="film-actor-tit-ul">
           <li v-for="(actor,index) in FilmDetails.actors" :key="index">
-            <img :src="actor.avatarAddress" alt>
+            <p class="actor-poto">
+              <img :src="actor.avatarAddress" alt />
+            </p>
             <p class="actor-name">{{ actor.name }}</p>
             <p class="actor-role">{{ actor.role }}</p>
           </li>
@@ -50,15 +66,12 @@
       <div class="photos-list">
         <ul>
           <li v-for="(photo,index) in FilmDetails.photos" :key="index">
-            <img :src="photo" alt>
+            <img :src="photo" alt />
           </li>
         </ul>
       </div>
     </div>
-    <a
-      href="javascript:;"
-      style="height: 49px; position: fixed; bottom: 0px; width: 100%;"
-    >
+    <a href="javascript:;" style="height: 49px; position: fixed; bottom: 0px; width: 100%;">
       <div class="goSchedule">选座购票</div>
     </a>
   </div>
@@ -66,12 +79,16 @@
 
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
       filmId: 4682,
       FilmDetails: [],
-      flagtitle: true
+      flagtitle: true,
+      falgheader: false,
+      falgGrade: false,
+      premiereAt: ""
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -80,7 +97,10 @@ export default {
       vm.getFilmDetails(vm.filmId);
     });
   },
-
+  created() {},
+  mounted: function() {
+    window.addEventListener("scroll", this.handleScroll, true); // 监听（绑定）滚轮滚动事件
+  },
   methods: {
     getFilmDetails(that) {
       axios
@@ -94,10 +114,31 @@ export default {
         .then(response => {
           if (response.data.status === 0) {
             this.FilmDetails = response.data.data.film;
+            this.FilmDetails.premiereAt;
+            let now = new Date(this.FilmDetails.premiereAt*1000);
+            let year = now.getFullYear();
+            let month = now.getMonth() + 1;
+            let date = now.getDate();
+           this.premiereAt = year + "-" + month + "-" + date;
+            if (this.FilmDetails.grade) {
+              this.falgGrade = true;
+            }
             console.log(this.FilmDetails);
             console.log(this.filmId);
           }
         });
+    },
+    handleScroll() {
+      var scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      // console.log(scrollTop)
+      if (scrollTop > 100) {
+        this.falgheader = true;
+      } else {
+        this.falgheader = false;
+      }
     }
   }
 };
@@ -108,6 +149,39 @@ export default {
 #film {
   height: px2rem(847);
   background-color: #f4f4f4;
+  .film-header {
+    position: fixed;
+    background-color: hsla(0, 0%, 100%, 0);
+    color: transparent;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    width: 100%;
+    height: px2rem(44);
+    z-index: 1;
+    .goBack {
+      height: px2rem(30);
+      position: absolute;
+      top: px2rem(5);
+      left: px2rem(5);
+      img {
+        width: px2rem(30);
+      }
+    }
+    .title {
+      font-size: 17px;
+      line-height: px2rem(44);
+      width: 100vw;
+      text-align: center;
+    }
+  }
+  .filmHeader {
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    background-color: #fff;
+    color: #191a1b;
+  }
   .topIMg {
     img {
       width: px2rem(375);
@@ -163,8 +237,10 @@ export default {
       overflow: hidden;
       transition: all 0.5s ease;
     }
+
     .transi {
-      transition: all 0.5s ease;
+      // height: 150px;
+      transition: height 0.5s ease;
     }
     .film-synopsis-d {
       margin-top: px2rem(12);
@@ -216,9 +292,15 @@ export default {
           min-width: px2rem(85);
           position: relative;
           margin-right: px2rem(10);
-          img {
+          .actor-poto {
             width: px2rem(85);
+            height: px2rem(85);
+            img {
+              width: px2rem(85);
+              height: px2rem(85);
+            }
           }
+
           .actor-name {
             padding-top: px2rem(10);
             font-size: 13px;
@@ -252,22 +334,22 @@ export default {
     .photos-title-bar {
       height: px2rem(62);
       width: 100%;
-      padding:  px2rem(16);
+      padding: px2rem(16);
       span {
         font-size: 16px;
         text-align: left;
         color: #191a1b;
         display: inline-block;
-        height:  px2rem(22.5);
-        line-height:  px2rem(22);
+        height: px2rem(22.5);
+        line-height: px2rem(22);
       }
       i {
         font-size: 13px;
         color: #797d82;
         float: right;
         display: inline-block;
-         height:  px2rem(22.5);
-        line-height:  px2rem(22);
+        height: px2rem(22.5);
+        line-height: px2rem(22);
       }
     }
     .photos-list {
@@ -276,7 +358,7 @@ export default {
       overflow-y: hidden;
       ul {
         margin-top: px2rem(5);
-        padding-left:  px2rem(15);
+        padding-left: px2rem(15);
         display: flex;
         li {
           margin-right: px2rem(10);

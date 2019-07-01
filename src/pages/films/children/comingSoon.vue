@@ -2,9 +2,9 @@
   <div class="comingSoon">
     <ul>
       <li class="filmLi" v-for="item in filmList" :key="item.filmId">
-        <a href="javascript:;" class="filmA">
+        <router-link :to="'/film/' + item.filmId" class="filmA">
           <div>
-            <img class="filmImg" :src="item.poster" alt srcset>
+            <img class="filmImg" :src="item.poster" alt srcset />
           </div>
           <ol class="film-main">
             <li class="film-name">
@@ -13,15 +13,14 @@
             </li>
             <li class="film-actors">
               主演:
-              <span v-for="actor in item.actors"
-              :key="actor.filmId">
+              <span v-for="actor in item.actors" :key="actor.filmId">
                 <i>&nbsp;{{ actor.name }}</i>
               </span>
             </li>
-            <li class="film-nation">上映日期：周二 7月2日</li>
+            <li class="film-nation">上映日期：{{ getNowTime(item.premiereAt) }}</li>
           </ol>
           <div class="buy-ticket">预购</div>
-        </a>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -34,29 +33,16 @@ export default {
 
   data() {
     return {
-      filmList: []
+      filmList: [],
+      premiereAt: ""
     };
   },
   created() {
     this.getFilmList();
+    // this.popo(this.premiereAt*1000)
   },
   methods: {
     getFilmList() {
-      // $.ajax({
-      //   url:
-      //     "https://m.maizuo.com/gateway?cityId=440300&pageNum=1&pageSize=10&type=2&k=6808889",
-      //   headers: {
-      //     "X-Client-Info":
-      //       '{"a":"3000","ch":"1002","v":"5.0.4","e":"15605781127614977018611"}',
-      //     "X-Host": "mall.film-ticket.film.list"
-      //   },
-      //   success: res => {
-      //     if (res.status === 0) {
-      //       this.filmList = res.data.films;
-      //       console.log(res.data.films);
-      //     }
-      //   }
-      // });
       axios
         .get(
           "https://m.maizuo.com/gateway?cityId=440300&pageNum=1&pageSize=10&type=2&k=6808889",
@@ -71,9 +57,40 @@ export default {
         .then(response => {
           if (response.data.status === 0) {
             this.filmList = response.data.data.films;
-            console.log(this.filmList);
           }
         });
+    },
+    getNowTime(premiereAt) {
+      // console.log(popo1)
+      let now = new Date(premiereAt * 1000);
+      let day = now.getDay();
+      switch (day) {
+        case 1:
+          day = "一";
+          break;
+        case 2:
+          day = "二";
+          break;
+        case 3:
+          day = "三";
+          break;
+        case 4:
+          day = "四";
+          break;
+        case 5:
+          day = "五";
+          break;
+        case 6:
+          day = "六";
+          break;
+        case 0:
+          day = "日";
+          break;
+      }
+      let date = now.getDate();
+      var month = now.getMonth() + 1;
+      // console.log(day);
+      return `周${day} ${month}月${date}日`;
     }
   }
 };
@@ -92,7 +109,7 @@ export default {
       width: px2rem(210);
       margin-left: px2rem(8);
       .film-name {
-        margin-top:  px2rem(3);
+        margin-top: px2rem(3);
         max-width: calc(100% - 25px);
         color: #191a1b;
         font-size: 16px;
@@ -170,7 +187,7 @@ export default {
       }
       .filmImg {
         width: px2rem(66);
-        height: 92px2rem(92)px;
+        height: 92px2rem (92) px;
       }
     }
   }
