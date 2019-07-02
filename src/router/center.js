@@ -1,6 +1,16 @@
+
+
 const route = {
-    path: '/center',
-    component: ()=>import('../pages/index')
+
+    path: '/',
+    component: ()=>import('../pages/index'),
+    children:[
+        {
+            path: 'center',
+            component: ()=>import('../pages/center/root'), 
+        }
+    ]
+
 }
 
 export default route;

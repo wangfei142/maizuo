@@ -1,8 +1,6 @@
 <template>
   <div id="act" class="page">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+<p>123</p>
   </div>
 </template>
 

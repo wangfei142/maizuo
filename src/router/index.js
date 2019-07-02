@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import filmsRoute from './films'
 import filmRoute from './film'
 import cinemasRoute from './cinemas'
+import cinemaRoute from './cinema'
 import actRoute from './act'
 import centerRoute from './center'
 
@@ -15,6 +16,7 @@ const routes = [
   actRoute,
   centerRoute,
   filmRoute,
+  cinemaRoute,
   {
     path: '**',
     redirect: '/films/nowPlaying'

@@ -101,6 +101,9 @@ export default {
   mounted: function() {
     window.addEventListener("scroll", this.handleScroll, true); // 监听（绑定）滚轮滚动事件
   },
+  destroyed () {
+  window.removeEventListener('scroll', this.handleScroll)
+},
   methods: {
     getFilmDetails(that) {
       axios
@@ -133,7 +136,7 @@ export default {
         window.pageYOffset ||
         document.documentElement.scrollTop ||
         document.body.scrollTop;
-      // console.log(scrollTop)
+      console.log(scrollTop)
       if (scrollTop > 100) {
         this.falgheader = true;
       } else {

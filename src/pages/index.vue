@@ -1,10 +1,9 @@
 <template>
   <div id="films" class="page">
     <keep-alive>
-       <transition mode="out-in">
-         <router-view></router-view>
-    </transition>
-        
+      <transition mode="out-in">
+        <router-view></router-view>
+      </transition>
     </keep-alive>
     <app-tabs></app-tabs>
   </div>
@@ -30,14 +29,14 @@ export default {
     overflow-y: auto;
   }
 }
-  .v-enter,
-    .v-leave-to {
-      opacity: 0;
-      transform: translateY(20px);
-    }
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
 
-    .v-enter-active,
-    .v-leave-active {
-      transition: all 0.5s ease;
-    }
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="comingSoon">
     <ul>
-      <li class="filmLi" v-for="item in filmList" :key="item.filmId">
+      <li class="filmLi" v-for="item in filmList" :key="item.filmId"  style=" position: relative;">
         <router-link :to="'/film/' + item.filmId" class="filmA">
           <div>
             <img class="filmImg" :src="item.poster" alt srcset />
@@ -190,6 +190,18 @@ export default {
         height: 92px2rem (92) px;
       }
     }
+  }
+    li:after {
+   content: " ";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #ededed;
+    color: #ededed;
+    transform-origin: 0 100%;
+    transform: scaleY(.2);
   }
 }
 </style>

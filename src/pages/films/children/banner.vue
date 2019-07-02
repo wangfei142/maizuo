@@ -1,10 +1,32 @@
 <template>
-  <div class="content top">
+  <div class="content top" @scroll="onScroll">
     <!-- 轮播图 -->
+    <div class="city-fixed">
+      <span>深圳</span>
+      <i style="font-size: 10px;">></i>
+    </div>
+    <header v-show="falgheader">
+      <!---->
+      <!---->
+      <div class="left">
+        <div class="city">
+          <span>深圳</span>
+          <img
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAJCAMAAAAIAYw9AAAAOVBMVEVHcEwZGhsZGxsZGhskJCQaGhwbGxsZHR0ZGhsZGhsZGhsZGhsZHBwaGhsaGhwZGxsaGh0bGxsZGhsAwt9XAAAAEnRSTlMA5Z7pB2scPfrK6NJskn6fcnH7htMrAAAAVElEQVQI11XNOQKAIBAEwQEXl0NQ+/+PNfDucIIabaGbnqyHXQHKfC9zgaABVD8Xr8CQlgw5SVLKkBdJ8gmIZhGY/BUoha9qKwDEz/fJJP3y1i5GB2jVA/F2X5USAAAAAElFTkSuQmCC"
+            width="6px"
+            height="3px"
+          />
+        </div>
+      </div>
+      <div class="title">
+        <div>电影</div>
+      </div>
+      <div class="right"></div>
+    </header>
     <div class="banner swiper-container" ref="banner">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="item in bannerList" :key="item.bannerId">
-          <img :src="item.imgUrl">
+          <img :src="item.imgUrl" />
         </div>
       </div>
       <div class="swiper-pagination"></div>
@@ -24,24 +46,26 @@
           </router-link>
         </p>
       </div>-->
-      <div class="tabs-nav">
+      <div class="tabs-nav" >
         <van-tabs
           line-width="60"
           v-model="active"
-          title-active-color="#ff5f16"
           line-height="1"
-          color = "#ff5f16"
           title-inactive-color="#999"
+          ref="opop"
         >
-          <van-tab v-for="tabitem in toNowList" :key="tabitem.id">
-            <div slot="title">
-              <router-link :to="tabitem.path" :class="{active:activeFlag}" @click="!activeFlag">{{tabitem.name}}</router-link>
+          <van-tab v-for="tabitem in toNowList" :key="tabitem.id" >
+            <div slot="title" >
+              <router-link
+                :to="tabitem.path"
+                :class="{active:activeFlag}"
+                @click="!activeFlag"
+              >{{tabitem.name}}</router-link>
             </div>
-          <keep-alive>
+            <keep-alive>
               <router-view></router-view>
             </keep-alive>
           </van-tab>
-            
         </van-tabs>
       </div>
     </div>
@@ -59,7 +83,8 @@ export default {
     return {
       bannerList: [],
       activeFlag: true,
-      active: 2,
+      active: 0,
+      falgheader: false,
       toNowList: [
         { id: 1, name: "正在热播", path: "nowPlaying" },
         { id: 2, name: "即将上映", path: "comingSoon" }
@@ -70,6 +95,7 @@ export default {
   created() {
     this.getBannerList();
   },
+
   components: {
     nowPlaying,
     comingSoon
@@ -111,33 +137,117 @@ export default {
           }
         }
       });
+    },
+    onScroll(e) {
+     let scrollTop = e.srcElement.scrollTop;
+     
+      if (scrollTop > 180) {
+        this.falgheader = true;
+      } else {
+        this.falgheader = false;
+      }
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
+@import "../../../assets/styles/common/px2rem.scss";
 @import "../../../assets/styles/common/swiper.min.css";
 .top {
   width: 100%;
+  position: relative;
   .banner {
     img {
       width: 100%;
     }
   }
+  .city-fixed {
+    position: absolute;
+    top: px2rem(18);
+    left: px2rem(7);
+    color: #fff;
+    z-index: 10;
+    font-size: 13px;
+    background: rgba(0, 0, 0, 0.2);
+    height: px2rem(30);
+    line-height: px2rem(30);
+    border-radius: px2rem(15);
+    text-align: center;
+    padding: 0  px2rem(5);
+  }
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: px2rem(44);
+    line-height: px2rem(44);
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    z-index: 3000;
+    background-color: #fff;
+    display: flex;
+    .left {
+      min-width: 15%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-left: px2rem(15);
+      float: left;
+      height: px2rem(44);
+      .city {
+        display: flex;
+        align-items: center;
+        span {
+          font-size: 13px;
+          max-width: px2rem(58);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          color: #191a1b;
+          padding-right: px2rem(5);
+        }
+        img {
+          width: px2rem(6);
+          height: px2rem(3);
+        }
+      }
+    }
+    .title {
+      text-align: center;
+      font-size: 17px;
+      color: #191a1b;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      float: left;
+      height: px2rem(44);
+    }
+    .right {
+      width: 15%;
+      display: flex;
+      align-items: center;
+      margin-right: px2rem(15);
+      justify-content: center;
+    }
+  }
 }
+
 .nowCom {
   display: flex;
-  height: 49px;
-  line-height: 49px;
+  height: px2rem(49);
+  line-height: px2rem(49);
   .coming,
   .nowing {
     flex: 1;
     text-align: center;
-    height: 47px;
+    height: px2rem(47);
     a {
-      width: 56px;
-      height: 46px;
+      width: px2rem(56);
+      height: px2rem(46);
       font-size: 14px;
       color: #444;
       display: inline-block;
@@ -148,36 +258,44 @@ export default {
     }
   }
 }
-.tabs-nav{
-    height:80px;
-    a{
-        color:#000;
-        display: block;
-    }
+.tabs-nav {
+  height: px2rem(80);
+  a {
+    color: #000;
+    display: block;
+  }
 }
-.van-ellipsis{
-    font-size: 30px;
+// .tabWrap {
+//   position: fixed;
+//   top: px2rem(44);
+// }
+a.router-link-exact-active.router-link-active.active {
+    color: #ff5f16;
 }
-.van-tabs--line .van-tabs__wrap{
-    height:80px;
+.van-tab--active a[data-v-63287e70] {
+    color: #000;
 }
-.van-tab{
-    line-height: 80px;
+.van-ellipsis {
+  font-size: 30px;
 }
-.van-tab--active{
-    a{
-      color:#ff5f16
-    }
+.van-tabs--line .van-tabs__wrap {
+  height: px2rem(80);
 }
-</style>
-<style lang="scss">
+.van-tab {
+  line-height: px2rem(80);
+}
+.van-tab--active {
+  a {
+    color: #ff5f16;
+  }
+}
 .banner {
   .swiper-pagination-bullets .swiper-pagination-bullet {
-    margin: 0 2px;
+    margin: 0 px2rem(2);
   }
   .swiper-pagination-bullet {
-    width: 18px;
-    height: 2px;
+    width: px2rem(18);
+    height: px2rem(2);
     border-radius: 0;
     background: #fff;
     opacity: 0.3;

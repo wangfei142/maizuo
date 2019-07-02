@@ -1,7 +1,7 @@
 <template>
   <div class="nowPlaying">
     <ul>
-      <li class="filmLi" v-for="item in filmList" :key="item.filmId">
+      <li class="filmLi" v-for="item in filmList" :key="item.filmId" style=" position: relative;">
         <router-link :to="'/film/' + item.filmId" class="filmA">
           <div>
             <img class="filmImg" :src="item.poster" alt srcset>
@@ -74,8 +74,10 @@ export default {
     margin: 0 auto;
     width: px2rem(360);
     height: px2rem(124);
+   
     padding: px2rem(15) px2rem(7) px2rem(15) px2rem(8);
     box-sizing: border-box;
+    
     .film-main {
       width: px2rem(210);
       margin-left: px2rem(8);
@@ -169,6 +171,18 @@ export default {
         height: 92px2rem(92)px;
       }
     }
+  }
+  li:after {
+   content: " ";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #ededed;
+    color: #ededed;
+    transform-origin: 0 100%;
+    transform: scaleY(.2);
   }
 }
 </style>

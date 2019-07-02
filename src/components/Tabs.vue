@@ -44,6 +44,7 @@ export default {
   bottom: 0;
   background: #fff;
   display: flex;
+  z-index: 1000;
   .tab {
     flex: 1;
     a {
