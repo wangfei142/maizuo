@@ -10,7 +10,7 @@
           data-enter-time="1561984166"
           data-click-fun="track_f_216510"
         >
-          <span data-v-4070467a>深圳</span>
+          <router-link to="/city">深圳</router-link>
           <img
             data-v-4070467a
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAJCAMAAAAIAYw9AAAAOVBMVEVHcEwZGhsZGxsZGhskJCQaGhwbGxsZHR0ZGhsZGhsZGhsZGhsZHBwaGhsaGhwZGxsaGh0bGxsZGhsAwt9XAAAAEnRSTlMA5Z7pB2scPfrK6NJskn6fcnH7htMrAAAAVElEQVQI11XNOQKAIBAEwQEXl0NQ+/+PNfDucIIabaGbnqyHXQHKfC9zgaABVD8Xr8CQlgw5SVLKkBdJ8gmIZhGY/BUoha9qKwDEz/fJJP3y1i5GB2jVA/F2X5USAAAAAElFTkSuQmCC"
@@ -212,7 +212,7 @@ export default {
       .city {
         display: flex;
         align-items: center;
-        span {
+        a {
           display: inline-block;
           font-size: 13px;
           max-width: 58px;

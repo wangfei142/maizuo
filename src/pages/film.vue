@@ -231,7 +231,7 @@ export default {
       }
     }
     .grey-text {
-      font-size: 14px;
+      font-size: 13px;
       color: #797d82;
       margin-top: px2rem(5);
     }

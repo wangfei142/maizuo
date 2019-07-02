@@ -2,15 +2,15 @@
   <div class="content top" @scroll="onScroll">
     <!-- 轮播图 -->
     <div class="city-fixed">
-      <span>深圳</span>
-      <i style="font-size: 10px;">></i>
+      <router-link to="/city">深圳</router-link>
+      <i style="font-size: 10px;"> > </i>
     </div>
     <header v-show="falgheader">
       <!---->
       <!---->
       <div class="left">
         <div class="city">
-          <span>深圳</span>
+          <router-link to="/city">深圳</router-link>
           <img
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAJCAMAAAAIAYw9AAAAOVBMVEVHcEwZGhsZGxsZGhskJCQaGhwbGxsZHR0ZGhsZGhsZGhsZGhsZHBwaGhsaGhwZGxsaGh0bGxsZGhsAwt9XAAAAEnRSTlMA5Z7pB2scPfrK6NJskn6fcnH7htMrAAAAVElEQVQI11XNOQKAIBAEwQEXl0NQ+/+PNfDucIIabaGbnqyHXQHKfC9zgaABVD8Xr8CQlgw5SVLKkBdJ8gmIZhGY/BUoha9qKwDEz/fJJP3y1i5GB2jVA/F2X5USAAAAAElFTkSuQmCC"
             width="6px"
@@ -166,7 +166,7 @@ export default {
     position: absolute;
     top: px2rem(18);
     left: px2rem(7);
-    color: #fff;
+    
     z-index: 10;
     font-size: 13px;
     background: rgba(0, 0, 0, 0.2);
@@ -175,6 +175,9 @@ export default {
     border-radius: px2rem(15);
     text-align: center;
     padding: 0  px2rem(5);
+    a{
+      color: #fff;
+    }
   }
   header {
     position: fixed;
@@ -200,7 +203,7 @@ export default {
       .city {
         display: flex;
         align-items: center;
-        span {
+        a {
           font-size: 13px;
           max-width: px2rem(58);
           overflow: hidden;

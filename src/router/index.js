@@ -6,6 +6,7 @@ import cinemasRoute from './cinemas'
 import cinemaRoute from './cinema'
 import actRoute from './act'
 import centerRoute from './center'
+import cityRoute from './city'
 
 Vue.use(Router);
 
@@ -17,6 +18,7 @@ const routes = [
   centerRoute,
   filmRoute,
   cinemaRoute,
+  cityRoute,
   {
     path: '**',
     redirect: '/films/nowPlaying'

@@ -71,13 +71,27 @@ const actions = {
       });
   },
 
-  getFilmList({ commit, state }) {
+  /**
+   * 获取影片列表数据
+   * @param {Boolean} isChangeFilmType 是否是切换影片类型之后的获取数据
+   */
+  getFilmList({ commit, state, rootState }, isChangeFilmType) {
+    // 判断 isChangeFilmType
+    if (isChangeFilmType) {
+      // 1. 清空filmlist
+      commit({ type: "setFilmList", list: [], total: 1 });
+      // 2. 将 pageNum 设置为 1
+      commit({ type: "setPageNum", num: 1 });
+    }
+
     // 请求之前， loading
     Toast.loading({ duration: 0, mask: true, message: "加载中..." });
     axios
       .get("https://m.maizuo.com/gateway", {
         params: {
-          cityId: 440300,
+          // cityId 不能写死
+          // cityId: 440300,
+          cityId: rootState.city.curCityId,
           pageNum: state.pageNum,
           pageSize: state.pageSize,
           // type = 1 正在热映
@@ -100,7 +114,7 @@ const actions = {
             // 追加
             // list: state.filmList.concat(res.data.films), ✅
             // list: state.filmList.push(res.data.films),   ❎
-            // list: state.filmList.push(...res.data.films), ✅
+            // list: state.filmList.push(...res.data.films),✅
             list: [...state.filmList, ...res.data.films],
             total: res.data.total
           });
