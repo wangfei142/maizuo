@@ -1,4 +1,5 @@
 <template>
+ <van-list v-model="filmLoading" :finished="isFinished" :immediate-check="true" finished-text="没有更多了" @load="getFilmList">
   <div class="comingSoon">
     <ul>
       <li class="filmLi" v-for="item in filmList" :key="item.filmId"  style=" position: relative;">
@@ -24,40 +25,65 @@
       </li>
     </ul>
   </div>
+  </van-list>
 </template>
 
 <script>
 import axios from "axios";
+import { Toast } from "vant";
 export default {
   name: "now-playing",
 
   data() {
     return {
-      filmList: [],
+       filmList: [],
+      pageNum: 1,
+      filmLoading: false,
+      cityId: 440300,
+      total : 1,
+      pageSize: 10, 
       premiereAt: ""
     };
   },
-  created() {
-    this.getFilmList();
-    // this.popo(this.premiereAt*1000)
+  computed: {
+    // 总的页数
+    totalPage() {
+      return Math.ceil(this.total / this.pageSize);
+    },
+
+    // 是否还有更多数据, 为true代表没有更多
+    isFinished() {
+      return this.pageNum > this.totalPage;
+    }
   },
   methods: {
     getFilmList() {
+      Toast.loading({ duration: 0, mask: true, message: "加载中..." });
       axios
-        .get(
-          "https://m.maizuo.com/gateway?cityId=440300&pageNum=1&pageSize=10&type=2&k=6808889",
-          {
-            headers: {
-              "X-Client-Info":
-                '{"a":"3000","ch":"1002","v":"5.0.4","e":"15605781127614977018611"}',
-              "X-Host": "mall.film-ticket.film.list"
-            }
+        .get("https://m.maizuo.com/gateway", {
+          params: {
+            cityId: this.cityId,
+            pageNum: this.pageNum,
+            pageSize: this.pageSize,
+            type: 2,
+            k: 66161
+          },
+          headers: {
+            "X-Client-Info":
+              '{"a":"3000","ch":"1002","v":"5.0.4","e":"156194886142949673108"}',
+            "X-Host": "mall.film-ticket.film.list"
           }
-        )
+        })
         .then(response => {
           if (response.data.status === 0) {
-            this.filmList = response.data.data.films;
+            this.total = response.data.data.total
+            this.filmList = [...this.filmList, ...response.data.data.films];
+          } else {
+            Toast(res.msg);
           }
+          this.filmLoading = false;
+          this.pageNum = this.pageNum + 1;
+          Toast.clear();
         });
     },
     getNowTime(premiereAt) {

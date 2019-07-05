@@ -2,7 +2,9 @@
   <div id="films" class="page">
     <keep-alive>
       <transition mode="out-in">
-        <router-view></router-view>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </transition>
     </keep-alive>
     <app-tabs></app-tabs>

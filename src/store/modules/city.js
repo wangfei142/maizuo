@@ -60,7 +60,7 @@ const getters = {
     let tmp = [];
     if (state.searchVal) {
       tmp = state.cities.filter(item => {
-        return item.name.indexOf(state.searchVal) > -1;
+        return item.name.indexOf(state.searchVal) > -1 || item.pinyin.indexOf(state.searchVal) > -1;
       });
     }
     return tmp;

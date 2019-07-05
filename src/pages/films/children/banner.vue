@@ -2,15 +2,15 @@
   <div class="content top" @scroll="onScroll">
     <!-- 轮播图 -->
     <div class="city-fixed">
-      <router-link to="/city">深圳</router-link>
-      <i style="font-size: 10px;"> > </i>
+      <router-link to="/city">{{ curCityInfo && curCityInfo.name }}</router-link>
+      <img src="../../../assets/styles/images/xia.png" alt="">
     </div>
     <header v-show="falgheader">
       <!---->
       <!---->
       <div class="left">
         <div class="city">
-          <router-link to="/city">深圳</router-link>
+          <router-link to="/city">{{ curCityInfo && curCityInfo.name }}</router-link>
           <img
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAJCAMAAAAIAYw9AAAAOVBMVEVHcEwZGhsZGxsZGhskJCQaGhwbGxsZHR0ZGhsZGhsZGhsZGhsZHBwaGhsaGhwZGxsaGh0bGxsZGhsAwt9XAAAAEnRSTlMA5Z7pB2scPfrK6NJskn6fcnH7htMrAAAAVElEQVQI11XNOQKAIBAEwQEXl0NQ+/+PNfDucIIabaGbnqyHXQHKfC9zgaABVD8Xr8CQlgw5SVLKkBdJ8gmIZhGY/BUoha9qKwDEz/fJJP3y1i5GB2jVA/F2X5USAAAAAElFTkSuQmCC"
             width="6px"
@@ -46,16 +46,17 @@
           </router-link>
         </p>
       </div>-->
-      <div class="tabs-nav" >
+      <div class="tabs-nav">
         <van-tabs
           line-width="60"
           v-model="active"
           line-height="1"
           title-inactive-color="#999"
           ref="opop"
+          sticky
         >
-          <van-tab v-for="tabitem in toNowList" :key="tabitem.id" >
-            <div slot="title" >
+          <van-tab v-for="tabitem in toNowList" :key="tabitem.id">
+            <div slot="title">
               <router-link
                 :to="tabitem.path"
                 :class="{active:activeFlag}"
@@ -73,9 +74,9 @@
 </template>
 
 <script>
-import { Tab, Tabs } from "vant";
 import nowPlaying from "./nowPlaying";
 import comingSoon from "./comingSoon";
+import { mapGetters } from "vuex";
 import $ from "jquery";
 export default {
   name: "top-content",
@@ -94,11 +95,23 @@ export default {
 
   created() {
     this.getBannerList();
+    let url = location.href;
+    var str = url.split('/');
+    switch(str[str.length-1]){
+      case "nowPlaying":
+        this.active = 0;
+        break;
+        default:
+           this.active = 1;
+    }
   },
 
   components: {
     nowPlaying,
     comingSoon
+  },
+  computed: {
+    ...mapGetters("city", ["curCityInfo"])
   },
   methods: {
     getBannerList() {
@@ -139,8 +152,8 @@ export default {
       });
     },
     onScroll(e) {
-     let scrollTop = e.srcElement.scrollTop;
-     
+      let scrollTop = e.srcElement.scrollTop;
+
       if (scrollTop > 180) {
         this.falgheader = true;
       } else {
@@ -166,7 +179,7 @@ export default {
     position: absolute;
     top: px2rem(18);
     left: px2rem(7);
-    
+
     z-index: 10;
     font-size: 13px;
     background: rgba(0, 0, 0, 0.2);
@@ -174,9 +187,13 @@ export default {
     line-height: px2rem(30);
     border-radius: px2rem(15);
     text-align: center;
-    padding: 0  px2rem(5);
-    a{
+    padding: 0 px2rem(5);
+    a {
       color: #fff;
+    }
+    img{
+      margin-left: 5px;
+      width: 10px;
     }
   }
   header {
@@ -268,15 +285,11 @@ export default {
     display: block;
   }
 }
-// .tabWrap {
-//   position: fixed;
-//   top: px2rem(44);
-// }
 a.router-link-exact-active.router-link-active.active {
-    color: #ff5f16;
+  color: #ff5f16;
 }
 .van-tab--active a[data-v-63287e70] {
-    color: #000;
+  color: #000;
 }
 .van-ellipsis {
   font-size: 30px;

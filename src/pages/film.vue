@@ -1,7 +1,7 @@
 <template>
   <div id="film" class="wrapper" ref="wrapper">
     <div class="film-header" :class="{ filmHeader:falgheader }">
-      <div class="goBack">
+      <div class="goBack" @click="goBack">
         <img
           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAAAt1BMVEVHcEz///////////////////////////////////////////////////////////////////////////////////97e3saGxyIiYnW1tYdHh9UVVUpKiulpaXLy8s6OzyysrIiIyPx8fEeHyC/v7/5+fklJihCQ0Ntb28bHB1hYWKXl5c0NTZLS0xAQUI4ODk3ODjh4eHr6+s2Nzfq6uptbm5gYGIbHB39/f2VlZdLS0wzNDUZGhs8UYRWAAAAPHRSTlMAGHpLE3cKgEdgVnJfNBZ+cBx9A28js/6sjPvK7p+Q3pn1g/iUgfLYuvzCpeTR2eHiiIXihrvD/YCl0uTUXbEtAAABd0lEQVRIx91W13KDQAw0xnCHARuDe+/dKY7T9f/flTzghCLdMaMXj/eRnZ0T0qqUSveBim96gRWGVuCZfqW4zpCuSMGVRiFhwxEInIY+0qogUFXHHcm6IFGXEa20HaGEY1PKWlNo0KzhylZZaFFuoW8WUP5qkXdtMtrnx4dkzLn/jcgMXY7wlMpVNs+SUs4nMOylvsiME6h6rjawHmfqm/YG6aETzJY5X6V8SykHsJjmvyb9TOVoD/0R5qpElxHKLewOKGHo0tuGThdn/pPsony3A20iHPevMih92MGW9OO1Pj5Gjvqwp63sx1IT4aYLGCi6wIylXp5azuCkaiAvlgY5ZryGzUolDWKplSV6Q5jMlW1rxdIwS7zA8azu+JCWfl+KSRkBM9KEF+fro0BxGJagjPimNyJp/1et/RlNx2l1esC8f2oGDGOscYYpY4RzFgdjXSmW5Fm3JBmrmXMQcM4QzvHDObk4hx7nvGQdtaxTmnXA3zR+AH8JUdNL967cAAAAAElFTkSuQmCC"
           alt
@@ -16,7 +16,7 @@
     <div class="film-details">
       <div class="fiml-name-d">
         <span>{{ FilmDetails.name }}</span>
-        <em>{{ FilmDetails.filmType.name }}</em>
+        <em>{{ FilmDetails.filmType ? FilmDetails.filmType.name :''}}</em>
         <i v-if="falgGrade">
           {{ FilmDetails.grade }}
           <s>分</s>
@@ -28,12 +28,8 @@
       </div>
       <div class="film-nation-d grey-text">{{ FilmDetails.nation }} | {{ FilmDetails.runtime }}分钟</div>
       <div class="film-synopsis-d grey-text">
-        <p
-          :class="{hidde:flagtitle}"
-          class="transi"
-          style="min-height: 10px"
-        >{{ FilmDetails.synopsis }}</p>
-        <p class="title-flag" @click="flagtitle = !flagtitle">
+        <p ref="titHeight" :class="{hidde:flagtitle}" class="transi">{{ FilmDetails.synopsis }}</p>
+        <p class="title-flag" @click="flagtitlefun">
           <img
             :class="{upper:!flagtitle}"
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAICAMAAADHqI+lAAAAOVBMVEVHcEy9xcW9wMW9wcW////Bwca9wcW9wMW9wMW+wMW+wcW9wcXMzMy+wMa+wce9wMe9wca9wMW9wMWKU/2FAAAAEnRSTlMAH+jGBDa6/vaatcIPdlNSdckJHB8JAAAASUlEQVQIHQXBhwGDMAADMCVksQr4/2MrObYCQNkOZ2oH6DWna2Q9wG9lXLQ984V3Zm/gntlb2zNvgN/KGFkPAL0mtQNA+b4C/AGl4gJfgEWzrAAAAABJRU5ErkJggg=="
@@ -61,7 +57,7 @@
     <div class="film-stagePhoto">
       <div class="photos-title-bar">
         <span class="photos-title-text">剧照</span>
-        <i class="photos-to-all">全部({{FilmDetails.photos.length}}) ></i>
+        <i class="photos-to-all">全部({{FilmDetails.photos ? FilmDetails.photos.length : ''}}) ></i>
       </div>
       <div class="photos-list">
         <ul>
@@ -101,9 +97,9 @@ export default {
   mounted: function() {
     window.addEventListener("scroll", this.handleScroll, true); // 监听（绑定）滚轮滚动事件
   },
-  destroyed () {
-  window.removeEventListener('scroll', this.handleScroll)
-},
+  destroyed() {
+    window.removeEventListener("scroll", this.handleScroll);
+  },
   methods: {
     getFilmDetails(that) {
       axios
@@ -118,16 +114,14 @@ export default {
           if (response.data.status === 0) {
             this.FilmDetails = response.data.data.film;
             this.FilmDetails.premiereAt;
-            let now = new Date(this.FilmDetails.premiereAt*1000);
+            let now = new Date(this.FilmDetails.premiereAt * 1000);
             let year = now.getFullYear();
             let month = now.getMonth() + 1;
             let date = now.getDate();
-           this.premiereAt = year + "-" + month + "-" + date;
+            this.premiereAt = year + "-" + month + "-" + date;
             if (this.FilmDetails.grade) {
               this.falgGrade = true;
             }
-            console.log(this.FilmDetails);
-            console.log(this.filmId);
           }
         });
     },
@@ -136,12 +130,19 @@ export default {
         window.pageYOffset ||
         document.documentElement.scrollTop ||
         document.body.scrollTop;
-      console.log(scrollTop)
       if (scrollTop > 100) {
         this.falgheader = true;
       } else {
         this.falgheader = false;
       }
+    },
+    flagtitlefun() {
+      this.flagtitle = !this.flagtitle;
+      this.$refs.titHeight.style.height =
+        this.$refs.titHeight.scrollHeight + "px";
+    },
+    goBack(){
+      this.$router.go(-1);
     }
   }
 };
@@ -238,12 +239,9 @@ export default {
     .hidde {
       height: 38px !important;
       overflow: hidden;
-      transition: all 0.5s ease;
     }
-
     .transi {
-      // height: 150px;
-      transition: height 0.5s ease;
+      transition: all 0.5s ease;
     }
     .film-synopsis-d {
       margin-top: px2rem(12);
@@ -254,8 +252,6 @@ export default {
         width: px2rem(20);
         margin: auto;
         line-height: normal;
-        // margin-top: px2rem(5);
-        //  transition: height .5s ease;
         img {
           width: px2rem(8);
           margin: auto;

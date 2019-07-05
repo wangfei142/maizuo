@@ -11,14 +11,25 @@
 
 
 <script>
-export default {
-  data() {
-    return {};
-  }
-};
+// import { mapActions } from "vuex";
+// export default {
+//   data() {
+//     return {};
+//   }
+//   ,
+
+//   methods:{
+//     ...mapActions("cinemas", ["getCinemasList"])
+//   },
+//     created() {
+//     this.getCinemasList();
+    
+//   }
+// };
 </script>
 
 <style scoped>
+
 .v-enter,
 .v-leave-to {
   opacity: 0;
