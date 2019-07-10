@@ -1,14 +1,21 @@
 <template>
   <div id="film" class="wrapper" ref="wrapper">
     <div class="film-header" :class="{ filmHeader:falgheader }">
-      <div class="goBack" @click="goBack">
+      <div class="goBack" @click="goBack" v-if="!flagPhotos">
         <img
           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAAAt1BMVEVHcEz///////////////////////////////////////////////////////////////////////////////////97e3saGxyIiYnW1tYdHh9UVVUpKiulpaXLy8s6OzyysrIiIyPx8fEeHyC/v7/5+fklJihCQ0Ntb28bHB1hYWKXl5c0NTZLS0xAQUI4ODk3ODjh4eHr6+s2Nzfq6uptbm5gYGIbHB39/f2VlZdLS0wzNDUZGhs8UYRWAAAAPHRSTlMAGHpLE3cKgEdgVnJfNBZ+cBx9A28js/6sjPvK7p+Q3pn1g/iUgfLYuvzCpeTR2eHiiIXihrvD/YCl0uTUXbEtAAABd0lEQVRIx91W13KDQAw0xnCHARuDe+/dKY7T9f/flTzghCLdMaMXj/eRnZ0T0qqUSveBim96gRWGVuCZfqW4zpCuSMGVRiFhwxEInIY+0qogUFXHHcm6IFGXEa20HaGEY1PKWlNo0KzhylZZaFFuoW8WUP5qkXdtMtrnx4dkzLn/jcgMXY7wlMpVNs+SUs4nMOylvsiME6h6rjawHmfqm/YG6aETzJY5X6V8SykHsJjmvyb9TOVoD/0R5qpElxHKLewOKGHo0tuGThdn/pPsony3A20iHPevMih92MGW9OO1Pj5Gjvqwp63sx1IT4aYLGCi6wIylXp5azuCkaiAvlgY5ZryGzUolDWKplSV6Q5jMlW1rxdIwS7zA8azu+JCWfl+KSRkBM9KEF+fro0BxGJagjPimNyJp/1et/RlNx2l1esC8f2oGDGOscYYpY4RzFgdjXSmW5Fm3JBmrmXMQcM4QzvHDObk4hx7nvGQdtaxTmnXA3zR+AH8JUdNL967cAAAAAElFTkSuQmCC"
           alt
         />
       </div>
-      <div class="title">{{FilmDetails.name}}</div>
-      <!---->
+      <div class="goBack" @click="flagPhotos = !flagPhotos" v-else>
+        <img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAAAt1BMVEVHcEz///////////////////////////////////////////////////////////////////////////////////97e3saGxyIiYnW1tYdHh9UVVUpKiulpaXLy8s6OzyysrIiIyPx8fEeHyC/v7/5+fklJihCQ0Ntb28bHB1hYWKXl5c0NTZLS0xAQUI4ODk3ODjh4eHr6+s2Nzfq6uptbm5gYGIbHB39/f2VlZdLS0wzNDUZGhs8UYRWAAAAPHRSTlMAGHpLE3cKgEdgVnJfNBZ+cBx9A28js/6sjPvK7p+Q3pn1g/iUgfLYuvzCpeTR2eHiiIXihrvD/YCl0uTUXbEtAAABd0lEQVRIx91W13KDQAw0xnCHARuDe+/dKY7T9f/flTzghCLdMaMXj/eRnZ0T0qqUSveBim96gRWGVuCZfqW4zpCuSMGVRiFhwxEInIY+0qogUFXHHcm6IFGXEa20HaGEY1PKWlNo0KzhylZZaFFuoW8WUP5qkXdtMtrnx4dkzLn/jcgMXY7wlMpVNs+SUs4nMOylvsiME6h6rjawHmfqm/YG6aETzJY5X6V8SykHsJjmvyb9TOVoD/0R5qpElxHKLewOKGHo0tuGThdn/pPsony3A20iHPevMih92MGW9OO1Pj5Gjvqwp63sx1IT4aYLGCi6wIylXp5azuCkaiAvlgY5ZryGzUolDWKplSV6Q5jMlW1rxdIwS7zA8azu+JCWfl+KSRkBM9KEF+fro0BxGJagjPimNyJp/1et/RlNx2l1esC8f2oGDGOscYYpY4RzFgdjXSmW5Fm3JBmrmXMQcM4QzvHDObk4hx7nvGQdtaxTmnXA3zR+AH8JUdNL967cAAAAAElFTkSuQmCC"
+          alt
+        />
+      </div>
+
+      <div class="title" v-if="!flagPhotos">{{FilmDetails.name}}</div>
+      <div class="title" v-else>剧照 ({{FilmDetails.photos ? FilmDetails.photos.length : ''}})</div>
     </div>
     <div class="topIMg">
       <img :src="FilmDetails.poster" alt />
@@ -57,12 +64,17 @@
     <div class="film-stagePhoto">
       <div class="photos-title-bar">
         <span class="photos-title-text">剧照</span>
-        <i class="photos-to-all">全部({{FilmDetails.photos ? FilmDetails.photos.length : ''}}) ></i>
+        <p class="noPhotos" v-if=" (FilmDetails.photos ? FilmDetails.photos.length : 0) == 0">暂无电影剧照</p>
+        <i
+          class="photos-to-all"
+          @click="flagPhotos = !flagPhotos"
+          v-if=" (FilmDetails.photos ? FilmDetails.photos.length : 0) > 0"
+        >全部({{FilmDetails.photos ? FilmDetails.photos.length : ''}}) ></i>
       </div>
       <div class="photos-list">
         <ul>
           <li v-for="(photo,index) in FilmDetails.photos" :key="index">
-            <img :src="photo" alt />
+            <img :src="photo" alt  @click="bgImg"/>
           </li>
         </ul>
       </div>
@@ -70,30 +82,35 @@
     <a href="javascript:;" style="height: 49px; position: fixed; bottom: 0px; width: 100%;">
       <div class="goSchedule">选座购票</div>
     </a>
+    <div class="album-zone" v-if="flagPhotos">
+      <div class="all-photos">
+        <div class="photo-context" v-for="(photo,index) in FilmDetails.photos" :key="index">
+          <img :src="photo" class="target-img" @click="bgImg" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
+import {ImagePreview} from "vant";
 export default {
   data() {
     return {
+      flagPhotos: false,
       filmId: 4682,
       FilmDetails: [],
       flagtitle: true,
       falgheader: false,
       falgGrade: false,
-      premiereAt: ""
+      premiereAt: "",
+      ImagePreview:[]
     };
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.filmId = to.params.id;
-      vm.getFilmDetails(vm.filmId);
-    });
+  created() {
+    this.getFilmDetails();
   },
-  created() {},
   mounted: function() {
     window.addEventListener("scroll", this.handleScroll, true); // 监听（绑定）滚轮滚动事件
   },
@@ -101,19 +118,22 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
-    getFilmDetails(that) {
+    getFilmDetails() {
       axios
-        .get(`https://m.maizuo.com/gateway?filmId=${that}&k=2819284`, {
-          headers: {
-            "X-Client-Info":
-              '{"a":"3000","ch":"1002","v":"5.0.4","e":"15605781127614977018611"}',
-            "X-Host": "mall.film-ticket.film.info"
+        .get(
+          `https://m.maizuo.com/gateway?filmId=${this.$route.params.id}&k=2819284`,
+          {
+            headers: {
+              "X-Client-Info":
+                '{"a":"3000","ch":"1002","v":"5.0.4","e":"15605781127614977018611"}',
+              "X-Host": "mall.film-ticket.film.info"
+            }
           }
-        })
+        )
         .then(response => {
           if (response.data.status === 0) {
             this.FilmDetails = response.data.data.film;
-            this.FilmDetails.premiereAt;
+            this.ImagePreview = this.FilmDetails.photos; 
             let now = new Date(this.FilmDetails.premiereAt * 1000);
             let year = now.getFullYear();
             let month = now.getMonth() + 1;
@@ -130,7 +150,7 @@ export default {
         window.pageYOffset ||
         document.documentElement.scrollTop ||
         document.body.scrollTop;
-      if (scrollTop > 100) {
+      if (scrollTop > 70 || this.flagPhotos == true) {
         this.falgheader = true;
       } else {
         this.falgheader = false;
@@ -141,8 +161,11 @@ export default {
       this.$refs.titHeight.style.height =
         this.$refs.titHeight.scrollHeight + "px";
     },
-    goBack(){
+    goBack() {
       this.$router.go(-1);
+    },
+    bgImg() {
+      ImagePreview(this.ImagePreview)
     }
   }
 };
@@ -334,6 +357,14 @@ export default {
       height: px2rem(62);
       width: 100%;
       padding: px2rem(16);
+      .noPhotos {
+        font-size: 14px;
+        color: #bdc0c5;
+        margin: auto;
+        text-align: center;
+        height: 115px;
+        line-height: 96px;
+      }
       span {
         font-size: 16px;
         text-align: left;
@@ -383,6 +414,34 @@ export default {
     color: #fff;
     font-size: 16px;
     line-height: px2rem(49);
+  }
+  .album-zone {
+    position: fixed;
+    top: 44px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    background-color: #fff;
+    .all-photos {
+      display: flex;
+      justify-content: flex-start;
+      align-content: center;
+      flex-wrap: wrap;
+      .photo-context {
+        width: calc((100% - 4px) / 2);
+        height: calc((100% - 3px) / 3);
+        margin-bottom: 1.5px;
+        background-size: 80px;
+        background-position: 50%;
+        background-repeat: no-repeat;
+        margin-right: 1.5px;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
 }
 </style>

@@ -32,20 +32,6 @@
       <div class="swiper-pagination"></div>
     </div>
     <div class="box">
-      <!-- <div class="nowCom">
-        <p class="nowing">
-          <router-link to="/films/nowPlaying" :class="{active:activeFlag}" @click="activeFlag">
-            正在热映
-            <span></span>
-          </router-link>
-        </p>
-        <p class="coming">
-          <router-link to="/films/comingSoon" :class="{active:activeFlag}" @click="!activeFlag">
-            即将上映
-            <span></span>
-          </router-link>
-        </p>
-      </div>-->
       <div class="tabs-nav">
         <van-tabs
           line-width="60"
@@ -54,7 +40,9 @@
           title-inactive-color="#999"
           ref="opop"
           sticky
+         
         >
+         <!-- offset-top = 44  hsbug-->
           <van-tab v-for="tabitem in toNowList" :key="tabitem.id">
             <div slot="title">
               <router-link

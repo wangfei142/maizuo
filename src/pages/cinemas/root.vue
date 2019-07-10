@@ -24,12 +24,13 @@
       </div>
       <div data-v-4070467a class="right">
         <div data-v-4070467a>
-          <div
+          <router-link
             data-v-4070467a
             class="toCinemaSearch"
             data-enter-time="1561984166"
             data-click-fun="track_f_30305"
-          >
+            to="/cinemas/search"
+           >
             <img
               data-v-4070467a
               src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADUAAAA2CAMAAABQrCHsAAABlVBMVEVHcEwaGh8/Pz8ZGxszMzMZGhwZGhsZGhsZGhsZGhscHBwnJycZGhskJCQaGh0fHx8ZGhsaGiMeHh4ZGhsZGhsbGxsZJiYaGhsZGhsZGhwZGhwZGxsZGxsaGhsfHx8ZGhsbGxsqKioaGhsbGxsZGxsbGxsZGhwaGh8ZGhskJCQZGxsZHh4ZGxsZGhsaGh0aGhsZGhsZMzMaGh0ZGhseHh4ZGhsZGhseHh4ZGhsZGhsZHh4aGh0aGhsZGhwbGxsaGh4ZIiIbGxsZGhwbGxsZGxsaGh1/f38aGhsZGxshISEZGxsZGxsZGhsZGhwfHx8aGh4aGhsdHR0ZGxv///8ZGhsqKioaGhwbGxtVVVUaGhwbGxsaGh8ZGhsZGxsaGhwZGxsaGhwaGhwgICAiIiIcHBwZGhsZGxsbGxsZGhsZGxsaGhwbGxsZGhsaGiAZGhwaGhsZGxsaGhwZGxsZGhwaGhsZHBwaGhwZHBwaGhwaGh0aGh0ZGhwbGxsaGh0aGhoZGhwaGiEZGxsZHBwZHR0aGhsaGhsZGhsIL5M3AAAAhnRSTlMAOQTsBeP76P73SA3qB2kY+B0i/fRBFKbfx62elq8QtzgG11V5L70w/BXOO6DeV6T2CnLwKsDWIenVMla5mUo6HhysQs9NAsSXF4uE06IITJwjggHMDFhxA5BAMd3Zj52Iah8PG/JmUuCDfS7LJ7aSqXVl0etQYlp8X2i+JXtz0CZ6Wzy4w4GfxwoAAAJjSURBVBgZrcEFUxQBAIbh77qL7m4ElFCxCQWDUFBQaaXDwu56f7cwzHLHsXe7N+Pz6D9pfPehovJvZcWHd42yx1n4uISkkseFTlmZejRHurlHU8pqaJpDruLN6Nvfb6ObxS4OTQ8pM/dVDoQXnszKMPtkIcyBq25lUNQHFDwI6aTQgwKgr0imejuArphOi3UBHb0yEfNAS7fMdbeAJ6ZTIqXQE1QmwR4ojSjdGHgLlVmhF8aU5hfwSdlEgfc6IVICo8puFEpqlWoGfA+V3UMfzCjFMxdEZSUKrmdKWoN5p6w452FNSXuwLGvLsKdjoTj+57L23E88JEM97MiOHaiX4QVsyY4teCFDGazLjnUok6EUamSHA0pl2IAV2bECGzLEISI7IhCXYR+KZEcR7MvwBrZlxza8keEPBGVHEKplKIfXsuM1lMvwCl7KjpfwSoZdWK2VtdpV2NWxOgjKWhDqlLQExbJWDEtKegr+Zllp9sNTpRiEK7JyBQaV6ocXrim7a+D9ohMqwJWnbPJcUKGTWj3QH1JmoX7wtCrNpbNQfU6ZnKuGs5d0ymWgLSFziTbgskx8BXztMtPuAy7myczHOOSfuaF0N87kgx/CDplx+IDAnftKdf9OAPB9C0CgU2YSlRy6d9dx+5akW7cdd+9xqDKhmjD4G2Tq+ghHvJ7vHi9HRq7rwIXzQLlbpm6WFZCqoOymjlQ1AZ+rZG58YnLYlw/k+4YnJ8Z1zL0I1OUpM+dA44BT6Rr8EHYoV/UBCHQqVzUXwf9TubpwHih3K0dVTUCTWzlyLwLvlbOGlkCzctca0z9q9NKFAyAIHQAAAABJRU5ErkJggg=="
@@ -37,22 +38,18 @@
               height="18px"
               alt
             />
-          </div>
+          </router-link>
         </div>
       </div>
     </header>
     <div class="cinema-list-tag">
       <div class="cinema-list-tag-name">
         <van-dropdown-menu>
-          <van-dropdown-item
-            v-model="value1"
-            :options="option1"
-            @change="setdistrictList({ list:districtCinemasList[value1].list})"
-          />
+          <van-dropdown-item v-model="value1" :options="option1" />
           <van-dropdown-item
             v-model="value2"
             :options="option2"
-            @change="setTicketFlag({ num: value2 })"
+            @change="setticketFlag({ num:value2})"
           />
           <van-dropdown-item v-model="value3" :options="option3" />
         </van-dropdown-menu>
@@ -62,7 +59,7 @@
     <div class="cinema-layer"></div>
     <div class="cinema-list-wrap">
       <ul class="cinema-list">
-        <li class="cinema-list-item" v-for="cinema in district_List" :key="cinema.cinemaId">
+        <li class="cinema-list-item" v-for="cinema in lists" :key="cinema.cinemaId">
           <router-link
             :to="'/cinema/'+cinema.cinemaId"
             class="cinema-item-wrap"
@@ -120,13 +117,15 @@
 <script>
 import axios from "axios";
 import { mapGetters, mapActions, mapState, mapMutations } from "vuex";
+import { setTimeout } from "timers";
 export default {
   data() {
     return {
+      list: [],
+      lists: [],
       value1: 0,
       value2: 1,
       value3: "A",
-      option1: [{ text: "全城", value: 0 }],
       option2: [{ text: "APP订票", value: 1 }, { text: "前台兑换", value: 2 }],
       option3: [
         { text: "最近去过", value: "A" },
@@ -141,41 +140,42 @@ export default {
   },
   computed: {
     ...mapGetters("city", ["curCityInfo"]),
-    ...mapGetters("cinemas", ["districtList", "districtCinemasList"]),
-
-    ...mapState("cinemas", ["cinemasList", "district_List", "flagABC"])
+    ...mapState("cinemas", ["cinemasList", "district_List", "option1"])
   },
   created() {
     this.getCinemasList();
-    setTimeout(() => {
-      this.option1 = [...this.option1, ...this.districtList];
-      console.log(this.districtCinemasList);
-      console.log(this.cinemasList);
-    }, 1350);
+    // setTimeout(() => {
+    //   this.list = this.cinemasList;
+    //   this.lists = this.list;
+    //   console.log(this.lists);
+    // }, 800);
   },
   watch: {
-    value2(newVal, oldVal) {
+    cinemasList(){
+       this.list = this.cinemasList;
+      this.lists = this.list;
+    },
+    value1() {
+      this.lists = [];
+      if (this.value1 == 0) {
+        this.lists = this.list;
+      }
+      for (var index in this.list) {
+        if (this.option1[this.value1].text == this.list[index].districtName) {
+          this.lists.push(this.list[index]);
+        }
+      }
+    },
+    value2() {
       this.getCinemasList();
-      
-      console.log(this.option1);
-      console.log(newVal);
-      console.log(this.districtList);
+        this.list = this.cinemasList;
+        this.lists = this.list;
     }
   },
 
   methods: {
     ...mapActions("cinemas", ["getCinemasList"]),
-    ...mapMutations("cinemas", [
-      "setCinemasList",
-      "setdistrictList",
-      "setTicketFlag"
-    ])
-    // setCinemasList(index){
-    //   console.log(index)
-    //   //  commit({ type: "setCinemasList", list: this.districtCinemasList[index].list });
-    //   // this.cinemasList = this.districtCinemasList[index].list
-    //     this.$store.commit("setCinemasList",{ list: this.districtCinemasList[index].list })
-    // }
+    ...mapMutations("cinemas", ["setCinemasList", "setticketFlag"])
   }
 };
 </script>

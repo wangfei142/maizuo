@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from "./store";
-import { Tab, Tabs, Toast, List, Search, IndexBar, IndexAnchor, DropdownMenu, DropdownItem } from "vant";
-
+import store from "./store"
+import { Tab, Tabs, Toast, List, Search, IndexBar, IndexAnchor, DropdownMenu, DropdownItem ,ImagePreview,Field } from "vant";
 Vue.config.productionTip = false
 Vue.use(Tab)
   .use(Tabs)
@@ -13,7 +12,9 @@ Vue.use(Tab)
   .use(IndexBar)
   .use(IndexAnchor)
   .use(DropdownMenu)
-  .use(DropdownItem);
+  .use(DropdownItem)
+  .use(ImagePreview)
+  .use(Field)
 
 
 new Vue({

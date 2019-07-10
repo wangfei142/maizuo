@@ -1,7 +1,7 @@
 <template>
   <div class="cinema">
     <div class="cinema-schedule">
-      <div class="header-left">
+      <div class="header-left" @click="goBack">
         <img src="../assets/styles/images/you.png" width="11px" height="18px" />
       </div>
       <img src="../assets/styles/images/del.png" width="17px" height="17px" style="display: none;" />
@@ -49,12 +49,12 @@
     </div>
   </div>
 </template>
-
-
 <script>
 export default {
-  created() {
-    console.log(this.$route.params.id);
+  methods:{
+    goBack(){
+      this.$router.go(-1);
+    }
   }
 };
 </script>

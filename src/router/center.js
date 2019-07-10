@@ -1,7 +1,4 @@
-
-
 const route = {
-
     path: '/',
     component: ()=>import('../pages/index'),
     children:[
@@ -10,7 +7,6 @@ const route = {
             component: ()=>import('../pages/center/root'), 
         }
     ]
-
 }
 
 export default route;

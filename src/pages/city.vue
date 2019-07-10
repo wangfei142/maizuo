@@ -100,9 +100,7 @@ export default {
       // 2. 得到当前 el 距离顶部的距离
      
       let offsetTop = el.offsetTop - 44;
-      console.log(el);
       
-       console.log(offsetTop);
       // 3. 操作左侧的滚动条的 scrollTop 属性
       box.scrollTop = offsetTop;
     },

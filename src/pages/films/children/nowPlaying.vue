@@ -64,21 +64,9 @@ export default {
   //   this.getFilmList();
   // },
   methods: {
-    getFilmList() {
-      console.log(123);
-      
+    getFilmList() {      
       Toast.loading({ duration: 0, mask: true, message: "加载中..." });
       axios
-        // .get(
-        //   "https://m.maizuo.com/gateway?cityId=440300&pageNum=1&pageSize=10&type=1&k=9862002",
-        //   {
-        //     headers: {
-        //       "X-Client-Info":
-        //         '{"a":"3000","ch":"1002","v":"5.0.4","e":"15605781127614977018611"}',
-        //       "X-Host": "mall.film-ticket.film.list"
-        //     }
-        //   }
-        // )
         .get("https://m.maizuo.com/gateway", {
           params: {
             cityId: this.cityId,
@@ -116,10 +104,8 @@ export default {
     margin: 0 auto;
     width: px2rem(360);
     height: px2rem(124);
-
     padding: px2rem(15) px2rem(7) px2rem(15) px2rem(8);
     box-sizing: border-box;
-
     .film-main {
       width: px2rem(210);
       margin-left: px2rem(8);

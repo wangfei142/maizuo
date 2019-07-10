@@ -4,6 +4,8 @@ import cinema from "./modules/cinema";
 import cinemas from "./modules/cinemas";
 import film from "./modules/film";
 import city from "./modules/city";
+import user from "./modules/user";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -11,6 +13,7 @@ export default new Vuex.Store({
     film,
     cinemas,
     city,
-    cinema
+    cinema,
+    user
   }
 });

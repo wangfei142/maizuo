@@ -1,21 +1,26 @@
 <template>
-  <div id="films" class="page">
-    <keep-alive>
+  <keep-alive>
+    <div id="films" class="page">
       <transition mode="out-in">
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
+        <router-view></router-view>
       </transition>
-    </keep-alive>
-    <app-tabs></app-tabs>
-  </div>
+      <app-tabs></app-tabs>
+    </div>
+  </keep-alive>
 </template>
 
 <script>
+import {mapActions} from "vuex";
 import Tabs from "../components/Tabs";
 export default {
   components: {
     [Tabs.name]: Tabs
+  },
+  methods:{
+    ...mapActions("city", ["getCities"]),
+  },
+  created(){
+    this.getCities()
   }
 };
 </script>
